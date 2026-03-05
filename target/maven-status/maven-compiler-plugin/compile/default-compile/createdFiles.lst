@@ -1,0 +1,7 @@
+backend\CampusCare\service\AuthService.class
+backend\CampusCare\model\User.class
+backend\CampusCare\controller\TestController.class
+backend\CampusCare\controller\AuthController.class
+backend\CampusCare\repository\UserRepository.class
+backend\CampusCare\CampusCareApplication.class
+backend\CampusCare\config\SecurityConfig.class
