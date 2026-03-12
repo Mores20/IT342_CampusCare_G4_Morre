@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 import './Auth.css';
 
 const Login = () => {
@@ -45,21 +46,66 @@ const Login = () => {
       // Login successful
       console.log('Login response:', data);
       
-      // Store login state (you might want to store a token if your backend returns one)
+      // Store login state
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('userEmail', formData.email);
       
-      // Show success message
       alert('Login successful!');
-      
-      // Redirect to dashboard or home page
-      navigate('/dashboard'); // Change this to your desired route
+      navigate('/dashboard');
       
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setLoading(true);
+      setError('');
+      
+      console.log('Google credential received:', credentialResponse);
+      
+      // Send the Google token to your backend
+      const response = await fetch('http://localhost:8080/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: credentialResponse.credential
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Google login failed');
+      }
+
+      // Login successful
+      console.log('Google login response:', data);
+      
+      // Store login state
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('authToken', data.accessToken || data.token);
+      if (data.email) localStorage.setItem('userEmail', data.email);
+      
+      alert('Google login successful!');
+      navigate('/dashboard');
+      
+    } catch (err) {
+      setError(err.message || 'Google login failed');
+      console.error('Google login error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setError('Google login failed. Please try again.');
+    console.log('Google login failed');
   };
 
   return (
@@ -120,6 +166,22 @@ const Login = () => {
               {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
+
+          <div className="divider">
+            <span>or</span>
+          </div>
+
+          <div className="google-login-wrapper">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              theme="outline"
+              size="large"
+              width="100%"
+              text="signin_with"
+              shape="rectangular"
+            />
+          </div>
         </div>
       </div>
     </div>
