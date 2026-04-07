@@ -45,14 +45,14 @@ const Login = () => {
 
       // Login successful
       console.log('Login response:', data);
-      
+
       // Store login state
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('userEmail', formData.email);
-      
+
       alert('Login successful!');
       navigate('/dashboard');
-      
+
     } catch (err) {
       setError(err.message);
     } finally {
@@ -64,40 +64,24 @@ const Login = () => {
     try {
       setLoading(true);
       setError('');
-      
-      console.log('Google credential received:', credentialResponse);
-      
-      // Send the Google token to your backend
-      const response = await fetch('http://localhost:8080/auth/google', {
+
+      const response = await fetch('http://localhost:8080/auth/google', { // ✅ fix this
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          token: credentialResponse.credential
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: credentialResponse.credential })
       });
 
       const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Google login failed');
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Google login failed');
-      }
-
-      // Login successful
-      console.log('Google login response:', data);
-      
-      // Store login state
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('authToken', data.accessToken || data.token);
       if (data.email) localStorage.setItem('userEmail', data.email);
-      
-      alert('Google login successful!');
+
       navigate('/dashboard');
-      
+
     } catch (err) {
-      setError(err.message || 'Google login failed');
-      console.error('Google login error:', err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -119,13 +103,13 @@ const Login = () => {
 
         <div className="form-section">
           <div className="tabs">
-            <button 
+            <button
               className="tab active"
               onClick={() => navigate('/login')}
             >
               Login
             </button>
-            <button 
+            <button
               className="tab"
               onClick={() => navigate('/register')}
             >
@@ -135,7 +119,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit}>
             {error && <div className="error-alert">{error}</div>}
-            
+
             <div className="input-group">
               <input
                 type="email"
@@ -158,8 +142,8 @@ const Login = () => {
               />
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="submit-btn"
               disabled={loading}
             >
