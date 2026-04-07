@@ -2,7 +2,9 @@ package edu.cit.morre.campuscare.service;
 
 import edu.cit.morre.campuscare.dto.AuthResponse;
 import edu.cit.morre.campuscare.model.User;
+import edu.cit.morre.campuscare.model.UserFactory;
 import edu.cit.morre.campuscare.repository.UserRepository;
+import edu.cit.morre.campuscare.strategy.AuthStrategy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -30,12 +32,7 @@ public class AuthService {
             throw new RuntimeException("Email already registered");
         }
 
-        User user = new User();
-        user.setName(name);
-        user.setEmail(email);
-
-        // 🔐 encode password
-        user.setPassword(passwordEncoder.encode(password));
+        User user = UserFactory.createLocalUser(name, email, password, passwordEncoder);
 
         userRepository.save(user);
 
@@ -54,6 +51,10 @@ public class AuthService {
         return "Login successful";
     }
 
+    public Object authenticate(AuthStrategy strategy) {
+        return strategy.authenticate();
+    }
+
     // ⭐ Google OAuth login support
     public AuthResponse authenticateWithGoogleOAuth2User(OAuth2User oAuth2User) {
 
@@ -68,12 +69,7 @@ public class AuthService {
         User user = userRepository.findByEmail(email).orElse(null);
 
         if (user == null) {
-            user = new User();
-            user.setEmail(email);
-            user.setName(name != null ? name : "Google User");
-
-            // random encoded password for OAuth users
-            user.setPassword(passwordEncoder.encode("oauth2-user"));
+            user = UserFactory.createOAuthUser(name, email, passwordEncoder);
 
             userRepository.save(user);
         }
