@@ -298,3 +298,37 @@
     font-size: 14px;
   }
 }
+/* Add these styles for Google login */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 25px 0 20px;
+  color: #999;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.divider span {
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.google-login-wrapper {
+  margin-top: 5px;
+  width: 100%;
+}
+
+.google-login-wrapper > div {
+  width: 100% !important;
+}
+
+/* Make Google button consistent with your design */
+.google-login-wrapper iframe {
+  border-radius: 10px !important;
+}
