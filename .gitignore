@@ -1,1 +1,4 @@
-"web/.env" 
+node_modules/
+target/
+web/.env
+*.env
