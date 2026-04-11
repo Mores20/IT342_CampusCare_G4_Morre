@@ -28,28 +28,33 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<AuthResponse> login(@RequestBody Map<String, String> credentials) {
+
         String email = credentials.get("email");
         String password = credentials.get("password");
-        String result = authService.login(email, password);
-        return ResponseEntity.ok(result);
+
+        AuthResponse response = authService.login(email, password);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Map<String, String> userData) {
-        String name = userData.get("name");
+    public ResponseEntity<AuthResponse> register(@RequestBody Map<String, String> userData) {
+        String firstName = userData.get("firstName");
+        String lastName = userData.get("lastName");
         String email = userData.get("email");
         String password = userData.get("password");
-        String result = authService.register(name, email, password);
-        return ResponseEntity.ok(result);
+
+        AuthResponse response = authService.register(firstName, lastName, email, password);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/google")
     public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> request) {
-        try {
-            String token = request.get("token");
 
-            // Verify the Google token
+        try {
+            String googleToken = request.get("token");
+
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                     new NetHttpTransport(),
                     new GsonFactory()
@@ -57,23 +62,24 @@ public class AuthController {
                     .setAudience(Collections.singletonList(googleClientId))
                     .build();
 
-            GoogleIdToken idToken = verifier.verify(token);
+            GoogleIdToken idToken = verifier.verify(googleToken);
 
             if (idToken != null) {
+
                 GoogleIdToken.Payload payload = idToken.getPayload();
 
-                // Get user info from payload
                 String email = payload.getEmail();
                 String name = (String) payload.get("name");
 
-                // Create or get user and generate token
-                // You'll need to implement a method that takes email and name
-                // AuthResponse authResponse = authService.authenticateWithGoogleUser(email, name);
+                // ✅ call your new method
+                String jwtToken = authService.googleLogin(email, name);
 
-                return ResponseEntity.ok(new AuthResponse("google-token-success"));
+                return ResponseEntity.ok(new AuthResponse(jwtToken));
+
             } else {
                 return ResponseEntity.badRequest().body("Invalid Google token");
             }
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Google login failed: " + e.getMessage());
         }

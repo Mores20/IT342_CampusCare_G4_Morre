@@ -1,7 +1,6 @@
 package edu.cit.morre.campuscare.service;
 
 import edu.cit.morre.campuscare.dto.AuthResponse;
-import edu.cit.morre.campuscare.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
