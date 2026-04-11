@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:gravity="center"
+    android:padding="28dp">
+
+    <!-- Logo / App Name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CampusCare"
+        android:textColor="@color/brand_primary"
+        android:textStyle="bold|italic"
+        android:textSize="36sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fast. Simple. Secure Appointments"
+        android:textColor="@color/brand_medium"
+        android:textStyle="italic"
+        android:textSize="13sp"
+        android:layout_marginBottom="48dp"/>
+
+    <!-- Welcome Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_card"
+        android:padding="32dp"
+        android:gravity="center"
+        android:elevation="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You are now logged in!"
+            android:textColor="@color/white"
+            android:textStyle="bold|italic"
+            android:textSize="20sp"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome, User!"
+            android:textColor="@color/white"
+            android:textStyle="italic"
+            android:textSize="15sp"
+            android:layout_marginBottom="32dp"/>
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:text="Logout"
+            android:textColor="@color/white"
+            android:textStyle="bold|italic"
+            android:background="@drawable/bg_button"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:stateListAnimator="@null"/>
+
+    </LinearLayout>
+
+</LinearLayout>

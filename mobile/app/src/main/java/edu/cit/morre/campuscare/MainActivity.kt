@@ -1,7 +1,7 @@
 package edu.cit.morre.campuscare
 
-import android.content.Intent
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -33,46 +33,42 @@ class MainActivity : AppCompatActivity() {
             val email = emailField.text.toString().trim()
             val password = passwordField.text.toString().trim()
 
-            android.util.Log.d("LOGIN", "Button clicked, email: $email")
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             val authApi = RetrofitClient.instance.create(AuthApi::class.java)
             authApi.login(LoginRequest(email, password))
                 .enqueue(object : Callback<AuthResponse> {
+
                     override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
-                        android.util.Log.d("LOGIN", "Response code: ${response.code()}")
-                        android.util.Log.d("LOGIN", "Body: ${response.body()}")
+                        if (response.isSuccessful) {
+                            val token = response.body()?.accessToken
+                            if (token != null) {
+                                // Save token and email
+                                TokenManager.saveToken(this@MainActivity, token)
+                                TokenManager.saveEmail(this@MainActivity, email)
 
-                        try {
-                            if (response.isSuccessful) {
-                                val token = response.body()?.accessToken
-                                android.util.Log.d("LOGIN", "Token null? ${token == null}")
+                                // Dismiss keyboard
+                                val imm = getSystemService(Context.INPUT_METHOD_SERVICE)
+                                        as android.view.inputmethod.InputMethodManager
+                                imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 
-                                if (token != null) {
-                                    android.util.Log.d("LOGIN", "Saving token...")
-                                    TokenManager.saveToken(this@MainActivity, token)
-                                    android.util.Log.d("LOGIN", "Token saved, showing dialog...")
-
-                                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
-                                    imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-
-                                    android.app.AlertDialog.Builder(this@MainActivity)
-                                        .setTitle("Success")
-                                        .setMessage("Login successful!")
-                                        .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                                        .show()
-
-                                    android.util.Log.d("LOGIN", "Dialog shown!")
-                                }
+                                // ✅ Navigate to Dashboard
+                                val intent = Intent(this@MainActivity, DashboardActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
                             }
-                        } catch (e: Exception) {
-                            android.util.Log.e("LOGIN", "CRASH: ${e.javaClass.simpleName}: ${e.message}")
-                            android.util.Log.e("LOGIN", "Stack: ${e.stackTraceToString()}")
+                        } else {
+                            val error = response.errorBody()?.string()
+                            runOnUiThread {
+                                Toast.makeText(this@MainActivity, "Login Failed: $error", Toast.LENGTH_LONG).show()
+                            }
                         }
                     }
 
-
                     override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-                        android.util.Log.e("LOGIN", "Failed: ${t.javaClass.simpleName}: ${t.message}")
                         runOnUiThread {
                             Toast.makeText(this@MainActivity, "Error: ${t.message}", Toast.LENGTH_LONG).show()
                         }
@@ -84,5 +80,4 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
-    // ✅ Nothing else goes here — no overrides outside onCreate
 }

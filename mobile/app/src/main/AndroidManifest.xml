@@ -29,6 +29,10 @@
         <activity
             android:name=".auth.RegisterActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
     </application>
 
 
