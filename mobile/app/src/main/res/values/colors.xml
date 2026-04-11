@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_primary">#0355A1</color>
+    <color name="brand_medium">#397EBF</color>
+    <color name="brand_light">#91C0EC</color>
+    <color name="brand_pale">#B2CEE8</color>
+    <color name="white">#FFFFFF</color>
+    <color name="card_bg">#397EBF</color>
+    <color name="tab_active">#0355A1</color>
+    <color name="tab_inactive">#91C0EC</color>
+    <color name="field_bg">#B2CEE8</color>
+    <color name="hint_text">#FFFFFF</color>
+</resources>
