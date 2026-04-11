@@ -40,13 +40,12 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody Map<String, String> userData) {
-
-        String name = userData.get("name");
+        String firstName = userData.get("firstName");
+        String lastName = userData.get("lastName");
         String email = userData.get("email");
         String password = userData.get("password");
 
-        AuthResponse response = authService.register(name, email, password);
-
+        AuthResponse response = authService.register(firstName, lastName, email, password);
         return ResponseEntity.ok(response);
     }
 

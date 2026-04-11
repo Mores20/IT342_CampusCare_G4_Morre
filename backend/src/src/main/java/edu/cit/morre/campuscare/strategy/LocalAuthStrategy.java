@@ -29,6 +29,7 @@ public class LocalAuthStrategy implements AuthStrategy {
             throw new RuntimeException("Invalid credentials");
         }
 
-        return "Login successful";
+        // Returns full name for confirmation
+        return user.getFirstName() + " " + user.getLastName();
     }
 }
