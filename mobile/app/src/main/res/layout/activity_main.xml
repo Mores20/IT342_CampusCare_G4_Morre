@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to"
+            android:textColor="@color/brand_primary"
+            android:textStyle="bold|italic"
+            android:textSize="16sp"
+            android:layout_marginTop="32dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CampusCare"
+            android:textColor="@color/brand_primary"
+            android:textStyle="bold|italic"
+            android:textSize="42sp"
+            android:letterSpacing="-0.02"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fast. Simple. "
+                android:textColor="@color/brand_primary"
+                android:textStyle="bold|italic"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Secure Appointments"
+                android:textColor="@color/brand_medium"
+                android:textStyle="bold|italic"
+                android:textSize="13sp"/>
+        </LinearLayout>
+
+        <!-- Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/bg_card"
+            android:elevation="8dp">
+
+            <!-- Tabs -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:orientation="horizontal">
+
+                <!-- Login Tab (Active) -->
+                <TextView
+                    android:id="@+id/tabLogin"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Login"
+                    android:textColor="@color/white"
+                    android:textStyle="bold|italic"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_tab_active"/>
+
+                <!-- Register Tab (Inactive) -->
+                <TextView
+                    android:id="@+id/tvGoToRegister"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Register"
+                    android:textColor="@color/white"
+                    android:textStyle="bold|italic"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_tab_inactive"/>
+            </LinearLayout>
+
+            <!-- Form Fields -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:paddingTop="28dp">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:hint="Email"
+                    android:textColorHint="@color/white"
+                    android:textColor="@color/white"
+                    android:textStyle="italic"
+                    android:background="@drawable/bg_field"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:inputType="textEmailAddress"
+                    android:layout_marginBottom="16dp"/>
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:hint="Password"
+                    android:textColorHint="@color/white"
+                    android:textColor="@color/white"
+                    android:textStyle="italic"
+                    android:background="@drawable/bg_field"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:inputType="textPassword"
+                    android:layout_marginBottom="28dp"/>
+
+                <Button
+                    android:id="@+id/loginBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:text="Login"
+                    android:textColor="@color/white"
+                    android:textStyle="bold|italic"
+                    android:textSize="15sp"
+                    android:background="@drawable/bg_button"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="8dp"
+                    android:stateListAnimator="@null"/>
+
+                <!-- hidden Google button, keep for functionality -->
+                <Button
+                    android:id="@+id/googleBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

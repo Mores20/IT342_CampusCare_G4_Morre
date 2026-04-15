@@ -5,40 +5,29 @@ import './Auth.css';
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-    // Clear specific error when user starts typing
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     if (errors[e.target.name]) {
-      setErrors({
-        ...errors,
-        [e.target.name]: ''
-      });
+      setErrors({ ...errors, [e.target.name]: '' });
     }
-    // Clear success message when user starts typing
-    if (successMessage) {
-      setSuccessMessage('');
-    }
+    if (successMessage) setSuccessMessage('');
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
+    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
 
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
@@ -61,8 +50,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate form
+
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -76,38 +64,26 @@ const Register = () => {
     try {
       const response = await fetch('http://localhost:8080/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: formData.name,
+          firstName: formData.firstName,  // ✅ matches backend field
+          lastName: formData.lastName,    // ✅ matches backend field
           email: formData.email,
           password: formData.password
         })
       });
 
-      const data = await response.text();
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data || 'Registration failed');
+        throw new Error(data.message || 'Registration failed');
       }
 
-      // Registration successful
-      setSuccessMessage(data || 'Registration successful! Please login.');
-      
-      // Clear form
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      });
+      setSuccessMessage('Registration successful! Redirecting to login...');
+      setFormData({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
 
-      // Redirect to login after 2 seconds
-      setTimeout(() => {
-        navigate('/login');
-      }, 2000);
-      
+      setTimeout(() => navigate('/login'), 2000);
+
     } catch (err) {
       setErrors({ submit: err.message });
     } finally {
@@ -126,35 +102,40 @@ const Register = () => {
 
         <div className="form-section">
           <div className="tabs">
-            <button 
-              className="tab"
-              onClick={() => navigate('/login')}
-            >
-              Login
-            </button>
-            <button 
-              className="tab active"
-              onClick={() => navigate('/register')}
-            >
-              Register
-            </button>
+            <button className="tab" onClick={() => navigate('/login')}>Login</button>
+            <button className="tab active" onClick={() => navigate('/register')}>Register</button>
           </div>
 
           <form onSubmit={handleSubmit}>
             {errors.submit && <div className="error-alert">{errors.submit}</div>}
             {successMessage && <div className="success-alert">{successMessage}</div>}
-            
+
+            {/* ✅ First Name */}
             <div className="input-group">
               <input
                 type="text"
-                name="name"
-                placeholder="Full Name"
-                value={formData.name}
+                name="firstName"
+                placeholder="First Name"
+                value={formData.firstName}
                 onChange={handleInputChange}
-                className={errors.name ? 'error' : ''}
+                className={errors.firstName ? 'error' : ''}
                 required
               />
-              {errors.name && <span className="error-message">{errors.name}</span>}
+              {errors.firstName && <span className="error-message">{errors.firstName}</span>}
+            </div>
+
+            {/* ✅ Last Name */}
+            <div className="input-group">
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Last Name"
+                value={formData.lastName}
+                onChange={handleInputChange}
+                className={errors.lastName ? 'error' : ''}
+                required
+              />
+              {errors.lastName && <span className="error-message">{errors.lastName}</span>}
             </div>
 
             <div className="input-group">
@@ -196,11 +177,7 @@ const Register = () => {
               {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
             </div>
 
-            <button 
-              type="submit" 
-              className="submit-btn"
-              disabled={loading}
-            >
+            <button type="submit" className="submit-btn" disabled={loading}>
               {loading ? 'Creating Account...' : 'Register'}
             </button>
           </form>
