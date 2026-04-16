@@ -27,6 +27,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
+
     public AuthResponse authenticateWithGoogleOAuth2User(OAuth2User oAuth2User) {
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
@@ -38,7 +39,10 @@ public class AuthService {
         User user = userRepository.findByEmail(email).orElse(null);
 
         if (user == null) {
-            Role role = roleRepository.findByName("STUDENT").orElse(null);
+            // Try USER first, fallback to STUDENT for compatibility
+            Role role = roleRepository.findByName("USER")
+                    .orElseGet(() -> roleRepository.findByName("STUDENT").orElse(null));
+
             String[] parts = name != null ? name.split(" ", 2) : new String[]{"OAuth", "User"};
 
             user = new User();
@@ -51,7 +55,16 @@ public class AuthService {
             userRepository.save(user);
         }
 
-        return new AuthResponse(jwtUtil.generateToken(email));
+        // Use the new generateToken method that includes user details
+        String token = jwtUtil.generateToken(user);
+
+        return new AuthResponse(
+                token,
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getRole() != null ? user.getRole().getName() : "USER"
+        );
     }
 
     public AuthResponse register(String firstName, String lastName, String email, String password) {
@@ -59,9 +72,10 @@ public class AuthService {
             throw new RuntimeException("Email already registered");
         }
 
-        // Default role = STUDENT
-        Role role = roleRepository.findByName("STUDENT")
-                .orElseThrow(() -> new RuntimeException("Default role not found. Please seed roles table."));
+        // Default role = USER
+        Role role = roleRepository.findByName("USER")
+                .orElseGet(() -> roleRepository.findByName("STUDENT")
+                        .orElseThrow(() -> new RuntimeException("Default role not found. Please seed roles table.")));
 
         User user = new User();
         user.setFirstName(firstName);
@@ -72,7 +86,17 @@ public class AuthService {
         user.setRole(role);
 
         userRepository.save(user);
-        return new AuthResponse(jwtUtil.generateToken(email));
+
+        // Use the new generateToken method
+        String token = jwtUtil.generateToken(user);
+
+        return new AuthResponse(
+                token,
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getRole().getName()
+        );
     }
 
     public AuthResponse login(String email, String password) {
@@ -83,14 +107,25 @@ public class AuthService {
             throw new RuntimeException("Invalid credentials");
         }
 
-        return new AuthResponse(jwtUtil.generateToken(email));
+        // Use the new generateToken method that includes user details
+        String token = jwtUtil.generateToken(user);
+
+        return new AuthResponse(
+                token,
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getRole() != null ? user.getRole().getName() : "USER"
+        );
     }
 
     public String googleLogin(String email, String name) {
         User user = userRepository.findByEmail(email).orElse(null);
 
         if (user == null) {
-            Role role = roleRepository.findByName("STUDENT").orElse(null);
+            Role role = roleRepository.findByName("USER")
+                    .orElseGet(() -> roleRepository.findByName("STUDENT").orElse(null));
+
             String[] parts = name != null ? name.split(" ", 2) : new String[]{"Google", "User"};
 
             user = new User();
@@ -103,6 +138,7 @@ public class AuthService {
             userRepository.save(user);
         }
 
-        return jwtUtil.generateToken(email);
+        // Use the new generateToken method
+        return jwtUtil.generateToken(user);
     }
 }
