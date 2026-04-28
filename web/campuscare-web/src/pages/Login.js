@@ -35,12 +35,22 @@ const Login = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      // ✅ Store JWT token from accessToken field
+      // ✅ Store JWT token (changed from accessToken to token)
       localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('authToken', data.accessToken);
-      localStorage.setItem('userEmail', formData.email);
+      localStorage.setItem('authToken', data.token); // ← Changed from accessToken
+      localStorage.setItem('userEmail', data.email || formData.email);
+      localStorage.setItem('userFirstName', data.firstName || '');
+      localStorage.setItem('userLastName', data.lastName || '');
+      localStorage.setItem('userRole', data.role || 'USER'); // ← Store role
 
-      navigate('/dashboard');
+      console.log('Login successful. Role:', data.role);
+
+      // ✅ Redirect based on role
+      if (data.role === 'ADMIN') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
 
     } catch (err) {
       setError(err.message);
@@ -66,11 +76,22 @@ const Login = () => {
         throw new Error(data.message || 'Google login failed');
       }
 
-      // ✅ Store JWT token from accessToken field
+      // ✅ Store JWT token and user info
       localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('authToken', data.accessToken);
+      localStorage.setItem('authToken', data.token); // ← Changed from accessToken
+      localStorage.setItem('userEmail', data.email || '');
+      localStorage.setItem('userFirstName', data.firstName || '');
+      localStorage.setItem('userLastName', data.lastName || '');
+      localStorage.setItem('userRole', data.role || 'USER'); // ← Store role
 
-      navigate('/dashboard');
+      console.log('Google login successful. Role:', data.role);
+
+      // ✅ Redirect based on role
+      if (data.role === 'ADMIN') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
 
     } catch (err) {
       setError(err.message || 'Google login failed');
@@ -141,6 +162,7 @@ const Login = () => {
               shape="rectangular"
             />
           </div>
+          
         </div>
       </div>
     </div>

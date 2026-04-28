@@ -1,6 +1,9 @@
 package edu.cit.morre.campuscare.config;
 
 import edu.cit.morre.campuscare.service.OAuth2LoginSuccessHandler;
+import edu.cit.morre.campuscare.util.JwtUtil;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,18 +24,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) throws Exception {
+            OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler,
+            JwtUtil jwtUtil
+    ) throws Exception {
 
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/login/**", "/oauth2/**", "/test/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/appointments/all").hasAuthority("ADMIN")
+                        .requestMatchers("/appointments/*/status").hasAuthority("ADMIN")
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .successHandler(oAuth2LoginSuccessHandler)
-                        .failureUrl("http://localhost:3000/login?error=true")
+                .addFilterBefore(
+                        new JwtAuthenticationFilter(jwtUtil),
+                        UsernamePasswordAuthenticationFilter.class
                 );
 
         return http.build();

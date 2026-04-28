@@ -39,7 +39,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             AuthResponse authResponse = authService.authenticateWithGoogleOAuth2User(oAuth2User);
 
             String encodedToken = URLEncoder.encode(
-                    authResponse.getAccessToken(),
+                    authResponse.getToken(),
                     StandardCharsets.UTF_8
             );
 
