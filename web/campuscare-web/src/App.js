@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import BookAppointment from "./pages/BookAppointment";
 import AdminDashboard from "./pages/AdminDashboard";
+import Profile from "./pages/Profile";
 
 // Protected Route - checks authentication only
 const PrivateRoute = ({ children }) => {
@@ -37,6 +38,10 @@ function App() {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
+          <Route path="/profile" element={
+             <PrivateRoute><Profile /></PrivateRoute>
+          } />
 
           {/* User routes */}
           <Route path="/dashboard" element={

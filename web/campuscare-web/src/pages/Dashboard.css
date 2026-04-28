@@ -16,74 +16,78 @@ body {
   background-color: var(--bg-page);
 }
 
-/* ── Page Wrapper ── */
+/* Keep only ONE .page-wrapper */
 .page-wrapper {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background-color: var(--bg-page);
 }
-
-/* ── Navbar ── */
+/* Main Navigation Bar */
 .main-nav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 16px 48px;
-  background: var(--white);
-  box-shadow: 0 2px 12px rgba(3, 85, 161, 0.08);
+  justify-content: space-between;
+  background: linear-gradient(135deg, #1a73e8, #0d47a1); /* Blue gradient */
+  color: white;
+  padding: 15px 30px;
+  width: 100%;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Logo */
 .logo-text {
-  font-size: 1.4rem;
-  font-weight: 800;
-  background: linear-gradient(90deg, #0355A1, #397EBF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 0.5px;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
 }
 
+/* Navigation Links */
 .nav-links {
   display: flex;
-  gap: 8px;
+  gap: 25px;
+  align-items: center;
 }
 
 .nav-links span {
-  padding: 8px 16px;
-  color: var(--primary-med);
+  color: white;
   cursor: pointer;
-  font-weight: 600;
-  border-radius: 8px;
-  transition: background 0.2s, color 0.2s;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s;
 }
 
 .nav-links span:hover {
-  background: var(--bg-page);
-  color: var(--primary-dark);
+  background: rgba(255, 255, 255, 0.2);
 }
 
+/* Logout Button */
 .logout-btn {
-  background: var(--primary-dark);
+  background: #dc3545;
   color: white;
   border: none;
   padding: 8px 20px;
-  border-radius: 10px;
-  font-weight: 700;
+  border-radius: 6px;
   cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-  transition: background 0.2s;
+  font-weight: 600;
+  transition: background 0.3s;
 }
 
-.logout-btn:hover { background: var(--primary-med); }
+.logout-btn:hover {
+  background: #c82333;
+}
 
-/* ── Dashboard Content ── */
 .dashboard-content {
-  background: var(--bg-accent);
-  margin: 28px 48px;
-  padding: 36px;
-  border-radius: 28px;
-  min-height: 75vh;
+  flex: 1;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .welcome-banner {

@@ -5,14 +5,13 @@
   import { apiRequest } from '../services/api';
 
   const Dashboard = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
+
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
-    const email = localStorage.getItem("userEmail");
-    const firstName = email.split('@')[0]; // fallback display name
     
+    const firstName = localStorage.getItem("userFirstName") || "Student";    
 
     useEffect(() => {
       fetchAppointments();
