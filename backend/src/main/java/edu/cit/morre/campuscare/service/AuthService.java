@@ -1,5 +1,6 @@
 package edu.cit.morre.campuscare.service;
 
+import edu.cit.morre.campuscare.exception.AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import edu.cit.morre.campuscare.dto.AuthResponse;
 import edu.cit.morre.campuscare.model.Role;
@@ -101,13 +102,12 @@ public class AuthService {
 
     public AuthResponse login(String email, String password) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseThrow(() -> new AuthenticationException("Invalid credentials"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new AuthenticationException("Invalid credentials");
         }
 
-        // Use the new generateToken method that includes user details
         String token = jwtUtil.generateToken(user);
 
         return new AuthResponse(
