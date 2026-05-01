@@ -23,7 +23,7 @@ public class Appointment {
     @Column(name = "appointment_time")
     private LocalTime appointmentTime;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user; // This links to your User table
 }

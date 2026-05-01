@@ -3,7 +3,6 @@ package edu.cit.morre.campuscare.config;
 import edu.cit.morre.campuscare.service.OAuth2LoginSuccessHandler;
 import edu.cit.morre.campuscare.util.JwtUtil;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,10 +31,19 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // ✅ Public endpoints
                         .requestMatchers("/auth/**").permitAll()
+
+                        // ✅ Admin only
                         .requestMatchers("/appointments/all").hasAuthority("ADMIN")
                         .requestMatchers("/appointments/*/status").hasAuthority("ADMIN")
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
+
+                        // ✅ Authenticated users
+                        .requestMatchers("/profile/**").authenticated()
+                        .requestMatchers("/files/**").authenticated()  // ✅ file upload
+                        .requestMatchers("/appointments/**").authenticated()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(

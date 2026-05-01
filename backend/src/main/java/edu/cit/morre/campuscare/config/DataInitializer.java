@@ -51,40 +51,5 @@ public class DataInitializer implements CommandLineRunner {
                     return roleRepository.save(newStudentRole);
                 });
 
-        // Create Admin User
-        if (!userRepository.findByEmail("admin@campuscare.com").isPresent()) {
-            User admin = new User();
-            admin.setFirstName("Admin");
-            admin.setLastName("User");
-            admin.setEmail("admin@campuscare.com");
-            admin.setPassword(passwordEncoder.encode("admin123"));
-            admin.setProvider("local");
-            admin.setRole(adminRole);
-
-            userRepository.save(admin);
-            System.out.println("✅ Admin user created!");
-            System.out.println("   📧 Email: admin@campuscare.com");
-            System.out.println("   🔑 Password: admin123");
-            System.out.println("   👤 Role: ADMIN");
-        } else {
-            System.out.println("ℹ️ Admin user already exists");
-        }
-
-        // Create a regular test user (optional)
-        if (!userRepository.findByEmail("user@campuscare.com").isPresent()) {
-            User regularUser = new User();
-            regularUser.setFirstName("Regular");
-            regularUser.setLastName("User");
-            regularUser.setEmail("user@campuscare.com");
-            regularUser.setPassword(passwordEncoder.encode("user123"));
-            regularUser.setProvider("local");
-            regularUser.setRole(userRole);
-
-            userRepository.save(regularUser);
-            System.out.println("✅ Regular user created!");
-            System.out.println("   📧 Email: user@campuscare.com");
-            System.out.println("   🔑 Password: user123");
-            System.out.println("   👤 Role: USER");
-        }
     }
 }
