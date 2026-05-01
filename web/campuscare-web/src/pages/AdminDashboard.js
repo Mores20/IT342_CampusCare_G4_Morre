@@ -4,37 +4,32 @@ import Navbar from './Navbar';
 import './Dashboard.css';
 import { apiRequest } from '../services/api';
 
+const BASE_URL = 'http://localhost:8080';
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [filterStatus, setFilterStatus] = useState('ALL');
+  const [files, setFiles] = useState({});
+  const [expandedId, setExpandedId] = useState(null);
 
-   useEffect(() => {
+  const token = localStorage.getItem('authToken');
+
+  useEffect(() => {
     const userRole = localStorage.getItem('userRole');
     const authToken = localStorage.getItem('authToken');
-    
-    if (!authToken) {
-      navigate('/login');
-      return;
-    }
-    
-    if (userRole !== 'ADMIN') {
-      navigate('/dashboard');
-      return;
-    }
-    
+
+    if (!authToken) { navigate('/login'); return; }
+    if (userRole !== 'ADMIN') { navigate('/dashboard'); return; }
+
     fetchAllAppointments();
   }, [navigate]);
 
-  useEffect(() => {
-    fetchAllAppointments();
-  }, []);
-
   const fetchAllAppointments = async () => {
     try {
-      const data = await apiRequest("/appointments/all");
+      const data = await apiRequest('/appointments/all');
       setAppointments(data);
     } catch (err) {
       setError(err.message);
@@ -43,20 +38,52 @@ const AdminDashboard = () => {
     }
   };
 
-
   const updateStatus = async (id, newStatus) => {
     try {
       await apiRequest(`/appointments/${id}/status`, {
-        method: "PUT",
+        method: 'PUT',
         body: JSON.stringify({ status: newStatus })
       });
-
       setAppointments(prev =>
         prev.map(a => a.id === id ? { ...a, status: newStatus } : a)
       );
     } catch (err) {
-      alert("Error: " + err.message);
+      alert('Error: ' + err.message);
     }
+  };
+
+  const fetchFiles = async (appointmentId) => {
+    if (expandedId === appointmentId) {
+      setExpandedId(null);
+      return;
+    }
+    try {
+      const data = await apiRequest(`/files/appointment/${appointmentId}`);
+      setFiles(prev => ({ ...prev, [appointmentId]: data }));
+      setExpandedId(appointmentId);
+    } catch (err) {
+      console.error('Failed to fetch files:', err.message);
+    }
+  };
+
+  const handleView = (fileId) => {
+    window.open(`${BASE_URL}/files/download/${fileId}?inline=true`, '_blank');
+  };
+
+  const handleDownload = (fileId, fileName) => {
+    fetch(`${BASE_URL}/files/download/${fileId}?inline=false`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => res.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(err => alert('Download failed: ' + err.message));
   };
 
   const filtered = filterStatus === 'ALL'
@@ -93,54 +120,98 @@ const AdminDashboard = () => {
         ) : (
           <div className="admin-container">
             {filtered.length === 0 ? (
-              <p style={{ color: 'white', textAlign: 'center', padding: '20px' }}>
+              <p style={{ color: '#555', textAlign: 'center', padding: '20px' }}>
                 No appointments found.
               </p>
             ) : (
               filtered.map(item => (
-                <div className="admin-card" key={item.id}>
-            
-                  <div className="admin-info">
-                    {/* Update this line to match the nested user object from Spring Boot */}
-                    <h4>{item.user?.firstName} {item.user?.lastName}</h4>
-                    <p>{item.user?.email}</p>
-                    <p><strong>Reason:</strong> {item.reason}</p>
-                    <p style={{ fontSize: '12px', color: '#666' }}>
-                      {item.appointmentDate} at {item.appointmentTime}
-                    </p>
-                  </div>
+                <div key={item.id}>
+                  <div className="admin-card">
 
-                  <div className="admin-actions">
-                    <span className={`status-badge ${item.status.toLowerCase()}`}>
-                      {item.status}
-                    </span>
+                    {/* Student Info */}
+                    <div className="admin-info">
+                      <h4>{item.user?.firstName} {item.user?.lastName}</h4>
+                      <p>{item.user?.email}</p>
+                      <p><strong>Reason:</strong> {item.reason}</p>
+                      <p style={{ fontSize: '12px', color: '#666' }}>
+                        {item.appointmentDate} at {item.appointmentTime}
+                      </p>
 
-                    {item.status === 'PENDING' && (
-                      <>
+                      {/* ✅ View Files button per appointment */}
+                      <button
+                        className="btn-outline"
+                        style={{ marginTop: '8px', fontSize: '12px', padding: '5px 12px' }}
+                        onClick={() => fetchFiles(item.id)}
+                      >
+                        📎 {expandedId === item.id ? 'Hide Files' : 'View Student Files'}
+                      </button>
+                    </div>
+
+                    {/* Status + Actions */}
+                    <div className="admin-actions">
+                      <span className={`status-badge ${item.status.toLowerCase()}`}>
+                        {item.status}
+                      </span>
+
+                      {item.status === 'PENDING' && (
+                        <>
+                          <button
+                            className="btn approve"
+                            onClick={() => updateStatus(item.id, 'APPROVED')}
+                          >
+                            Approve
+                          </button>
+                          <button
+                            className="btn reject"
+                            onClick={() => updateStatus(item.id, 'CANCELLED')}
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      )}
+
+                      {item.status === 'APPROVED' && (
                         <button
                           className="btn approve"
-                          onClick={() => updateStatus(item.id, 'APPROVED')}
+                          onClick={() => updateStatus(item.id, 'COMPLETED')}
                         >
-                          Approve
+                          Mark Complete
                         </button>
-                        <button
-                          className="btn reject"
-                          onClick={() => updateStatus(item.id, 'CANCELLED')}
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    )}
+                      )}
+                    </div>
 
-                    {item.status === 'APPROVED' && (
-                      <button
-                        className="btn approve"
-                        onClick={() => updateStatus(item.id, 'COMPLETED')}
-                      >
-                        Mark Complete
-                      </button>
-                    )}
                   </div>
+
+                  {/* ✅ Expandable file list below each card */}
+                  {expandedId === item.id && (
+                    <div className="file-list admin-file-list">
+                      {!files[item.id] ? (
+                        <p className="file-empty">Loading files...</p>
+                      ) : files[item.id].length === 0 ? (
+                        <p className="file-empty">No files uploaded by student.</p>
+                      ) : (
+                        files[item.id].map(f => (
+                          <div className="file-item" key={f.id}>
+                            <span className="file-name">📄 {f.fileName}</span>
+                            <div className="file-actions">
+                              <button
+                                className="file-btn view"
+                                onClick={() => handleView(f.id)}
+                              >
+                                View
+                              </button>
+                              <button
+                                className="file-btn download"
+                                onClick={() => handleDownload(f.id, f.fileName)}
+                              >
+                                Download
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  )}
 
                 </div>
               ))

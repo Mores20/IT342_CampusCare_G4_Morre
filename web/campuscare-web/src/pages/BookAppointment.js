@@ -2,18 +2,23 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import './Dashboard.css';
-import { apiRequest } from '../services/api';
+import { apiRequest, uploadFile } from '../services/api';
 
 const BookAppointment = () => {
   const navigate = useNavigate();
+  const userRole = localStorage.getItem('userRole') || 'STUDENT';
+
   const [formData, setFormData] = useState({
     reason: '',
     appointmentDate: '',
-    appointmentTime: ''
+    appointmentTime: '',
+    notes: ''   // ✅ added missing notes field
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);     // ✅ file state
+  const [fileError, setFileError] = useState('');             // ✅ file error
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,11 +30,34 @@ const BookAppointment = () => {
     if (!formData.appointmentDate) return 'Please select a date.';
     if (!formData.appointmentTime) return 'Please select a time.';
 
-    // Must be a future date
     const selected = new Date(`${formData.appointmentDate}T${formData.appointmentTime}`);
     if (selected <= new Date()) return 'Please select a future date and time.';
 
     return null;
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFileError('');
+
+    if (!file) return;
+
+    // Validate type
+    const allowed = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+    if (!allowed.includes(file.type)) {
+      setFileError('Only JPG, PNG, GIF, or PDF files are allowed.');
+      setSelectedFile(null);
+      return;
+    }
+
+    // Validate size — max 5MB
+    if (file.size > 5 * 1024 * 1024) {
+      setFileError('File must be under 5MB.');
+      setSelectedFile(null);
+      return;
+    }
+
+    setSelectedFile(file);
   };
 
   const handleSubmit = async (e) => {
@@ -45,17 +73,27 @@ const BookAppointment = () => {
     setError('');
 
     try {
-      await apiRequest("/appointments", {
-        method: "POST",
+      // Step 1 — Book appointment
+      const appointment = await apiRequest('/appointments', {
+        method: 'POST',
         body: JSON.stringify(formData)
       });
 
-      setSuccess("Appointment booked successfully!");
-      setFormData({
-        reason: '',
-        appointmentDate: '',
-        appointmentTime: ''
-      });
+      // Step 2 — Upload file if selected
+      if (selectedFile && appointment?.id) {
+        try {
+          await uploadFile(selectedFile, appointment.id);
+        } catch (uploadErr) {
+          // Appointment saved but file failed — show warning not error
+          setSuccess('Appointment booked! Note: file upload failed — ' + uploadErr.message);
+          setTimeout(() => navigate('/dashboard'), 3000);
+          return;
+        }
+      }
+
+      setSuccess('Appointment booked successfully! Redirecting...');
+      setFormData({ reason: '', appointmentDate: '', appointmentTime: '', notes: '' });
+      setSelectedFile(null);
 
       setTimeout(() => navigate('/dashboard'), 2000);
 
@@ -66,12 +104,11 @@ const BookAppointment = () => {
     }
   };
 
-  // Get today's date as min value for date input
   const today = new Date().toISOString().split('T')[0];
 
   return (
     <div className="page-wrapper">
-      <Navbar role="STUDENT" />
+      <Navbar role={userRole} />
 
       <div className="dashboard-content">
         <div className="welcome-banner">
@@ -124,6 +161,31 @@ const BookAppointment = () => {
                 value={formData.notes}
                 onChange={handleChange}
               />
+
+              {/* ✅ File Upload */}
+              <label>Attach Document (optional)</label>
+              <div className="file-upload-box">
+                <input
+                  type="file"
+                  id="fileUpload"
+                  accept=".jpg,.jpeg,.png,.gif,.pdf"
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="fileUpload" className="file-upload-label">
+                  📎 {selectedFile ? selectedFile.name : 'Choose a file (JPG, PNG, PDF — max 5MB)'}
+                </label>
+                {selectedFile && (
+                  <button
+                    type="button"
+                    className="file-remove-btn"
+                    onClick={() => setSelectedFile(null)}
+                  >
+                    ✕ Remove
+                  </button>
+                )}
+              </div>
+              {fileError && <span className="error-message">{fileError}</span>}
 
             </div>
 
