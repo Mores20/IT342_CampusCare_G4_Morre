@@ -35,15 +35,14 @@ const Login = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      // ✅ Store JWT token (changed from accessToken to token)
+      // ✅ Store tokens and user info
       localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('authToken', data.token); // ← Changed from accessToken
+      localStorage.setItem('authToken', data.accessToken);       // ✅ matches Map.of("accessToken",...)
+      localStorage.setItem('refreshToken', data.refreshToken);   // ✅ store refresh token
       localStorage.setItem('userEmail', data.email || formData.email);
       localStorage.setItem('userFirstName', data.firstName || '');
       localStorage.setItem('userLastName', data.lastName || '');
-      localStorage.setItem('userRole', data.role || 'USER'); // ← Store role
-
-      console.log('Login successful. Role:', data.role);
+      localStorage.setItem('userRole', data.role || 'STUDENT');
 
       // ✅ Redirect based on role
       if (data.role === 'ADMIN') {
@@ -76,15 +75,14 @@ const Login = () => {
         throw new Error(data.message || 'Google login failed');
       }
 
-      // ✅ Store JWT token and user info
+      // ✅ Store tokens and user info
       localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('authToken', data.token); // ← Changed from accessToken
+      localStorage.setItem('authToken', data.accessToken);       // ✅ matches Map.of("accessToken",...)
+      localStorage.setItem('refreshToken', data.refreshToken);   // ✅ store refresh token
       localStorage.setItem('userEmail', data.email || '');
       localStorage.setItem('userFirstName', data.firstName || '');
       localStorage.setItem('userLastName', data.lastName || '');
-      localStorage.setItem('userRole', data.role || 'USER'); // ← Store role
-
-      console.log('Google login successful. Role:', data.role);
+      localStorage.setItem('userRole', data.role || 'STUDENT');
 
       // ✅ Redirect based on role
       if (data.role === 'ADMIN') {
@@ -162,7 +160,6 @@ const Login = () => {
               shape="rectangular"
             />
           </div>
-          
         </div>
       </div>
     </div>

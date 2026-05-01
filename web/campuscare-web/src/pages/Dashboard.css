@@ -16,78 +16,74 @@ body {
   background-color: var(--bg-page);
 }
 
-/* Keep only ONE .page-wrapper */
+/* ── Page Wrapper ── */
 .page-wrapper {
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
   background-color: var(--bg-page);
 }
-/* Main Navigation Bar */
+
+/* ── Navbar ── */
 .main-nav {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, #1a73e8, #0d47a1); /* Blue gradient */
-  color: white;
-  padding: 15px 30px;
-  width: 100%;
+  align-items: center;
+  padding: 16px 48px;
+  background: var(--white);
+  box-shadow: 0 2px 12px rgba(3, 85, 161, 0.08);
   position: sticky;
   top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
 }
 
-/* Logo */
 .logo-text {
-  font-size: 24px;
-  font-weight: 700;
-  color: white;
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #0355A1, #397EBF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.5px;
 }
 
-/* Navigation Links */
 .nav-links {
   display: flex;
-  gap: 25px;
-  align-items: center;
+  gap: 8px;
 }
 
 .nav-links span {
-  color: white;
+  padding: 8px 16px;
+  color: var(--primary-med);
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: background 0.3s;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
 }
 
 .nav-links span:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--bg-page);
+  color: var(--primary-dark);
 }
 
-/* Logout Button */
 .logout-btn {
-  background: #dc3545;
+  background: var(--primary-dark);
   color: white;
   border: none;
   padding: 8px 20px;
-  border-radius: 6px;
+  border-radius: 10px;
+  font-weight: 700;
   cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s;
+  font-family: 'Nunito', sans-serif;
+  transition: background 0.2s;
 }
 
-.logout-btn:hover {
-  background: #c82333;
-}
+.logout-btn:hover { background: var(--primary-med); }
 
+/* ── Dashboard Content ── */
 .dashboard-content {
-  flex: 1;
-  padding: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+  background: var(--bg-accent);
+  margin: 28px 48px;
+  padding: 36px;
+  border-radius: 28px;
+  min-height: 75vh;
 }
 
 .welcome-banner {
@@ -411,7 +407,146 @@ body {
 
 .btn.reject:hover { background: #9b2c2c; }
 
-/* ── Responsive ── */
+/* ── File List (view/download) ── */
+.file-list {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-file-list {
+  background: #f8fbff;
+  border: 1px solid var(--bg-accent);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f0f6ff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--bg-accent);
+}
+
+.file-name {
+  font-size: 0.85rem;
+  color: var(--primary-dark);
+  font-weight: 600;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+
+.file-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.file-btn {
+  border: none;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.file-btn:hover { opacity: 0.85; }
+
+.file-btn.view {
+  background: var(--primary-dark);
+  color: white;
+}
+
+.file-btn.download {
+  background: var(--primary-med);
+  color: white;
+}
+
+.file-empty {
+  color: #888;
+  font-size: 0.85rem;
+  font-style: italic;
+  padding: 4px 0;
+}
+
+/* ── Outline Button ── */
+.btn-outline {
+  background: transparent;
+  color: var(--primary-dark);
+  border: 2px solid var(--primary-dark);
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  background: var(--primary-dark);
+  color: white;
+}
+
+/* ── File Upload ── */
+.file-upload-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.file-upload-label {
+  display: inline-block;
+  padding: 10px 18px;
+  background: #f0f6ff;
+  border: 2px dashed var(--primary-light);
+  border-radius: 10px;
+  color: var(--primary-dark);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.file-upload-label:hover {
+  background: #e0eeff;
+  border-color: var(--primary-med);
+}
+
+.file-remove-btn {
+  background: #fee2e2;
+  color: #991b1b;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: background 0.2s;
+}
+
+.file-remove-btn:hover { background: #fecaca; }
+
+.error-message {
+  color: #991b1b;
+  font-size: 0.82rem;
+  font-weight: 600;
+} */
 @media (max-width: 768px) {
   .dashboard-content { margin: 16px; padding: 20px; }
   .main-nav { padding: 14px 20px; }

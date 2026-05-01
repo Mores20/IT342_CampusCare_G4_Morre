@@ -18,15 +18,18 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final EmailService emailService;
 
     public AuthService(UserRepository userRepository,
                        RoleRepository roleRepository,
                        PasswordEncoder passwordEncoder,
-                       JwtUtil jwtUtil) {
+                       JwtUtil jwtUtil,
+                       EmailService emailService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
+        this.emailService = emailService;
     }
 
     public AuthResponse authenticateWithGoogleOAuth2User(OAuth2User oAuth2User) {
@@ -38,11 +41,11 @@ public class AuthService {
         }
 
         User user = userRepository.findByEmail(email).orElse(null);
+        boolean isNewUser = user == null;
 
-        if (user == null) {
-            // Try USER first, fallback to STUDENT for compatibility
-            Role role = roleRepository.findByName("USER")
-                    .orElseGet(() -> roleRepository.findByName("STUDENT").orElse(null));
+        if (isNewUser) {
+            Role role = roleRepository.findByName("STUDENT")
+                    .orElseThrow(() -> new RuntimeException("STUDENT role not found"));
 
             String[] parts = name != null ? name.split(" ", 2) : new String[]{"OAuth", "User"};
 
@@ -54,9 +57,11 @@ public class AuthService {
             user.setProvider("google");
             user.setRole(role);
             userRepository.save(user);
+
+            // ✅ Send welcome email for new Google users
+            emailService.sendWelcomeEmail(email, user.getFirstName());
         }
 
-        // Use the new generateToken method that includes user details
         String token = jwtUtil.generateToken(user);
 
         return new AuthResponse(
@@ -64,7 +69,7 @@ public class AuthService {
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getRole() != null ? user.getRole().getName() : "USER"
+                user.getRole() != null ? user.getRole().getName() : "STUDENT"
         );
     }
 
@@ -73,10 +78,8 @@ public class AuthService {
             throw new RuntimeException("Email already registered");
         }
 
-        // Default role = USER
-        Role role = roleRepository.findByName("USER")
-                .orElseGet(() -> roleRepository.findByName("STUDENT")
-                        .orElseThrow(() -> new RuntimeException("Default role not found. Please seed roles table.")));
+        Role role = roleRepository.findByName("STUDENT")
+                .orElseThrow(() -> new RuntimeException("STUDENT role not found. Please seed roles table."));
 
         User user = new User();
         user.setFirstName(firstName);
@@ -88,7 +91,9 @@ public class AuthService {
 
         userRepository.save(user);
 
-        // Use the new generateToken method
+        // ✅ Send welcome email on registration
+        emailService.sendWelcomeEmail(email, firstName);
+
         String token = jwtUtil.generateToken(user);
 
         return new AuthResponse(
@@ -115,16 +120,17 @@ public class AuthService {
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getRole() != null ? user.getRole().getName() : "USER"
+                user.getRole() != null ? user.getRole().getName() : "STUDENT"
         );
     }
 
     public String googleLogin(String email, String name) {
         User user = userRepository.findByEmail(email).orElse(null);
+        boolean isNewUser = user == null;
 
-        if (user == null) {
-            Role role = roleRepository.findByName("USER")
-                    .orElseGet(() -> roleRepository.findByName("STUDENT").orElse(null));
+        if (isNewUser) {
+            Role role = roleRepository.findByName("STUDENT")
+                    .orElseThrow(() -> new RuntimeException("STUDENT role not found"));
 
             String[] parts = name != null ? name.split(" ", 2) : new String[]{"Google", "User"};
 
@@ -136,9 +142,11 @@ public class AuthService {
             user.setProvider("google");
             user.setRole(role);
             userRepository.save(user);
+
+            // ✅ Send welcome email for new Google users
+            emailService.sendWelcomeEmail(email, user.getFirstName());
         }
 
-        // Use the new generateToken method
         return jwtUtil.generateToken(user);
     }
 }
