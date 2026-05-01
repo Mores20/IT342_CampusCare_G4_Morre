@@ -44,8 +44,8 @@ public class AuthService {
         boolean isNewUser = user == null;
 
         if (isNewUser) {
-            Role role = roleRepository.findByName("USER")
-                    .orElseGet(() -> roleRepository.findByName("STUDENT").orElse(null));
+            Role role = roleRepository.findByName("STUDENT")
+                    .orElseThrow(() -> new RuntimeException("STUDENT role not found"));
 
             String[] parts = name != null ? name.split(" ", 2) : new String[]{"OAuth", "User"};
 
@@ -69,7 +69,7 @@ public class AuthService {
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getRole() != null ? user.getRole().getName() : "USER"
+                user.getRole() != null ? user.getRole().getName() : "STUDENT"
         );
     }
 
@@ -78,9 +78,8 @@ public class AuthService {
             throw new RuntimeException("Email already registered");
         }
 
-        Role role = roleRepository.findByName("USER")
-                .orElseGet(() -> roleRepository.findByName("STUDENT")
-                        .orElseThrow(() -> new RuntimeException("Default role not found. Please seed roles table.")));
+        Role role = roleRepository.findByName("STUDENT")
+                .orElseThrow(() -> new RuntimeException("STUDENT role not found. Please seed roles table."));
 
         User user = new User();
         user.setFirstName(firstName);
@@ -121,7 +120,7 @@ public class AuthService {
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getRole() != null ? user.getRole().getName() : "USER"
+                user.getRole() != null ? user.getRole().getName() : "STUDENT"
         );
     }
 
@@ -130,8 +129,8 @@ public class AuthService {
         boolean isNewUser = user == null;
 
         if (isNewUser) {
-            Role role = roleRepository.findByName("USER")
-                    .orElseGet(() -> roleRepository.findByName("STUDENT").orElse(null));
+            Role role = roleRepository.findByName("STUDENT")
+                    .orElseThrow(() -> new RuntimeException("STUDENT role not found"));
 
             String[] parts = name != null ? name.split(" ", 2) : new String[]{"Google", "User"};
 
