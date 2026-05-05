@@ -112,5 +112,3 @@ Open app/src/main/java/edu/cit/morre/campuscare/auth/RetrofitClient.kt:
 ###
 5. Run on emulator or device
    
-
-## 📁 Project Structure
