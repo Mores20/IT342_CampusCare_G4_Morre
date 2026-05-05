@@ -7,6 +7,7 @@ import edu.cit.morre.campuscare.api.AuthApi
 import edu.cit.morre.campuscare.databinding.ActivityRegisterBinding
 import edu.cit.morre.campuscare.model.AuthResponse
 import edu.cit.morre.campuscare.model.RegisterRequest
+import edu.cit.morre.campuscare.utils.CustomToast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,11 +38,11 @@ class RegisterActivity : AppCompatActivity() {
         val confirmPassword = binding.etConfirmPassword.text.toString().trim()
 
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            CustomToast.info(this@RegisterActivity, "Please fill all fields")
             return
         }
         if (password != confirmPassword) {
-            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            CustomToast.error(this@RegisterActivity, "Password mismatch")
             return
         }
 
@@ -52,20 +53,20 @@ class RegisterActivity : AppCompatActivity() {
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                 if (response.isSuccessful) {
                     runOnUiThread {
-                        Toast.makeText(this@RegisterActivity, "Registration Successful!", Toast.LENGTH_LONG).show()
+                        CustomToast.success(this@RegisterActivity, "Registration Successful!")
                     }
                     finish()
                 } else {
                     val error = response.errorBody()?.string()
                     runOnUiThread {
-                        Toast.makeText(this@RegisterActivity, "Failed: $error", Toast.LENGTH_LONG).show()
+                        CustomToast.error(this@RegisterActivity, "Failed: $error")
                     }
                 }
             }
 
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
                 runOnUiThread {
-                    Toast.makeText(this@RegisterActivity, "Error: ${t.message}", Toast.LENGTH_LONG).show()
+                    CustomToast.error(this@RegisterActivity, "Error: ${t.message}")
                 }
             }
         })

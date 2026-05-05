@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f6ff"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0355A1"
+            android:padding="20dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CampusCare 🏥"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold|italic"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/tvWelcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome, Student 👋"
+                    android:textColor="#B2CEE8"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Logout"
+                android:textColor="#0355A1"
+                android:backgroundTint="#FFFFFF"
+                android:textSize="12sp"
+                android:stateListAnimator="@null"/>
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBookAppointment"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="+ Book Appointment"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:background="@drawable/bg_button"
+                android:stateListAnimator="@null"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnProfile"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="👤 Profile"
+                android:textColor="#0355A1"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:backgroundTint="#B2CEE8"
+                android:stateListAnimator="@null"/>
+        </LinearLayout>
+
+        <!-- Upcoming Appointment Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📌 Upcoming Appointment"
+            android:textColor="#0355A1"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:paddingStart="16dp"
+            android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvNoUpcoming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No upcoming appointments. Book one now!"
+            android:textColor="#91C0EC"
+            android:gravity="center"
+            android:padding="20dp"
+            android:background="#FFFFFF"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/upcomingCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card"
+            android:padding="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            android:elevation="4dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvUpcomingReason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/tvUpcomingDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#B2CEE8"
+                    android:textSize="13sp"/>
+
+                <TextView
+                    android:id="@+id/tvUpcomingTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#B2CEE8"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvUpcomingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="#FFFFFF"/>
+        </LinearLayout>
+
+        <!-- History Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🕐 Appointment History"
+            android:textColor="#0355A1"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:paddingStart="16dp"
+            android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvNoHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No past appointments yet."
+            android:textColor="#91C0EC"
+            android:gravity="center"
+            android:padding="20dp"
+            android:background="#FFFFFF"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="24dp"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"/>
+
+    </LinearLayout>
+</ScrollView>
