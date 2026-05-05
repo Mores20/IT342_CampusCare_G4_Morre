@@ -1,4 +1,4 @@
-# 🏥 CampusCare - School Clinic Appointment System
+#  CampusCare - School Clinic Appointment System
 
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
@@ -76,6 +76,7 @@ CampusCare is a comprehensive school clinic appointment management system that s
    cd backend
 2. Create environment file
   Create a .env file in the backend/ directory:
+###
 DATABASE_URL=jdbc:postgresql://localhost:5432/campuscare
 DATABASE_USERNAME=your_database_username
 DATABASE_PASSWORD=your_database_password
@@ -85,7 +86,9 @@ DATABASE_CLIENT_SECRET=your_google_oauth_client_secret
 
 MAIL_USERNAME=your_gmail_address@gmail.com
 MAIL_PASSWORD=your_gmail_app_password
-  Note: For Gmail, use an App Password instead of your regular password.
+###
+Note: For Gmail, use an App Password instead of your regular password.
+###
 4. Run the application
   ./mvnw spring-boot:run
 
@@ -103,9 +106,11 @@ MAIL_PASSWORD=your_gmail_app_password
 2. Open the project
    File → Open → Select mobile/ directory
 3. Update API base URL
-   Open app/src/main/java/edu/cit/morre/campuscare/auth/RetrofitClient.kt: private const val BASE_URL = "http://10.0.2.2:8080/"  // For emulator
-// Use "http://your_ip:8080/" for physical device
-4. Run on emulator or device
+Open app/src/main/java/edu/cit/morre/campuscare/auth/RetrofitClient.kt:
+###
+   private const val BASE_URL = "http://10.0.2.2:8080/" // For emulator, Use "http://your_ip:8080/" for physical device
+###
+5. Run on emulator or device
    
 
 ## 📁 Project Structure
