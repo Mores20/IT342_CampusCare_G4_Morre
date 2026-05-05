@@ -1,6 +1,10 @@
 package edu.cit.morre.campuscare.model
 
-
 data class AuthResponse(
-    val accessToken: String // Not accessToken!
+    val accessToken: String? = null,
+    val refreshToken: String? = null,
+    val email: String? = null,
+    val firstName: String? = null,
+    val lastName: String? = null,
+    val role: String? = null
 )

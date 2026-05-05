@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:elevation="2dp">
+
+    <!-- Student Info Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="6dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvStudentName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#1a202c"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/tvStudentEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#718096"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvAdminStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:background="#f0f6ff"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvAdminReason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#333333"
+        android:textSize="13sp"
+        android:layout_marginBottom="2dp"/>
+
+    <TextView
+        android:id="@+id/tvAdminDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#718096"
+        android:textSize="12sp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Action Buttons Row 1: Status -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btnApprove"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:text="Approve"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2f855a"
+            android:textSize="11sp"
+            android:stateListAnimator="@null"
+            android:layout_marginEnd="6dp"/>
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:text="Cancel"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#c53030"
+            android:textSize="11sp"
+            android:stateListAnimator="@null"
+            android:layout_marginEnd="6dp"/>
+
+        <Button
+            android:id="@+id/btnComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:text="Complete"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#3730a3"
+            android:textSize="11sp"
+            android:stateListAnimator="@null"/>
+    </LinearLayout>
+
+    <!-- ✅ View Files Button -->
+    <Button
+        android:id="@+id/btnViewFiles"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:text="📎 View Attached Files"
+        android:textColor="#0355A1"
+        android:backgroundTint="#B2CEE8"
+        android:textSize="11sp"
+        android:stateListAnimator="@null"/>
+
+</LinearLayout>

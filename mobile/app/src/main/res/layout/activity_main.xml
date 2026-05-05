@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@android:color/white"
     android:fillViewport="true">
 
     <LinearLayout
@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:padding="28dp">
 
-        <!-- Header -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,14 +26,12 @@
             android:text="CampusCare"
             android:textColor="@color/brand_primary"
             android:textStyle="bold|italic"
-            android:textSize="42sp"
-            android:letterSpacing="-0.02"/>
+            android:textSize="42sp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,7 +39,6 @@
                 android:textColor="@color/brand_primary"
                 android:textStyle="bold|italic"
                 android:textSize="13sp"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,9 +63,7 @@
                 android:layout_height="52dp"
                 android:orientation="horizontal">
 
-                <!-- Login Tab (Active) -->
                 <TextView
-                    android:id="@+id/tabLogin"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -80,7 +74,6 @@
                     android:gravity="center"
                     android:background="@drawable/bg_tab_active"/>
 
-                <!-- Register Tab (Inactive) -->
                 <TextView
                     android:id="@+id/tvGoToRegister"
                     android:layout_width="0dp"
@@ -94,7 +87,7 @@
                     android:background="@drawable/bg_tab_inactive"/>
             </LinearLayout>
 
-            <!-- Form Fields -->
+            <!-- Form -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,29 +121,52 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
                     android:inputType="textPassword"
-                    android:layout_marginBottom="28dp"/>
+                    android:layout_marginBottom="20dp"/>
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/loginBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="44dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
                     android:text="Login"
                     android:textColor="@color/white"
                     android:textStyle="bold|italic"
-                    android:textSize="15sp"
                     android:background="@drawable/bg_button"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp"
-                    android:layout_gravity="start"
-                    android:layout_marginBottom="8dp"
-                    android:stateListAnimator="@null"/>
+                    android:backgroundTint="@null"
+                    android:stateListAnimator="@null"
+                    android:layout_marginBottom="14dp"/>
 
-                <!-- hidden Google button, keep for functionality -->
-                <Button
+                <!-- Divider -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+                    <View android:layout_width="0dp" android:layout_height="1dp"
+                        android:layout_weight="1" android:background="#B2CEE8"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="  or  " android:textColor="#B2CEE8" android:textSize="12sp"/>
+                    <View android:layout_width="0dp" android:layout_height="1dp"
+                        android:layout_weight="1" android:background="#B2CEE8"/>
+                </LinearLayout>
+
+                <!-- ✅ Google Sign-In Button with proper icon -->
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/googleBtn"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:visibility="gone"/>
+                    android:layout_height="48dp"
+                    android:text="Sign in with Google"
+                    android:textColor="#3c4043"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:backgroundTint="@null"
+                    android:background="@drawable/bg_google_btn"
+                    android:drawableStart="@drawable/ic_google"
+                    android:drawablePadding="12dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:stateListAnimator="@null"
+                    android:layout_marginBottom="8dp"/>
 
             </LinearLayout>
         </LinearLayout>

@@ -26,13 +26,12 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".auth.RegisterActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".DashboardActivity"
-            android:exported="false" />
+        <activity android:name=".auth.RegisterActivity" android:exported="false" />
+        <activity android:name=".auth.StudentDashboardActivity" android:exported="false" />
+        <activity android:name=".auth.AdminDashboardActivity" android:exported="false" />
+        <activity android:name=".auth.BookAppointmentActivity" android:exported="false" />
+        <activity android:name=".auth.ViewAppointmentsActivity" android:exported="false" />
+        <activity android:name=".auth.ProfileActivity" android:exported="false" />
     </application>
 
 
