@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
-import './Dashboard.css';
-import { apiRequest, uploadFile } from '../services/api';
+import Navbar from "../../shared/components/Navbar";
+import "../../shared/styles/Dashboard.css";
+import { apiRequest, uploadFile } from "../../shared/services/api";
 
 const BookAppointment = () => {
   const navigate = useNavigate();

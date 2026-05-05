@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar";
-import { apiRequest } from "../services/api";
-import "./Dashboard.css";
+import Navbar from "../../shared/components/Navbar";
+import { apiRequest } from "../../shared/services/api";
+import "../../shared/styles/Dashboard.css";
 import "./Profile.css";
 
 const PasswordStrength = ({ password }) => {

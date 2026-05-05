@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
-import './Dashboard.css';
-import { apiRequest } from '../services/api';
+import Navbar from "../../shared/components/Navbar";
+import "../../shared/styles/Dashboard.css";
+import { apiRequest } from "../../shared/services/api";
 
 const BASE_URL = 'http://localhost:8080';
 

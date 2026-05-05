@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 
-import Login from "./pages/CombinedAuth";
-import Dashboard from "./pages/Dashboard";
-import BookAppointment from "./pages/BookAppointment";
-import AdminDashboard from "./pages/AdminDashboard";
-import Profile from "./pages/Profile";
-import CombinedAuth from "./pages/CombinedAuth";
+// Feature imports
+import CombinedAuth from "./features/auth/CombinedAuth";
+import Dashboard from "./features/dashboard/Dashboard";
+import BookAppointment from "./features/dashboard/BookAppointment";
+import AdminDashboard from "./features/admin/AdminDashboard";
+import Profile from "./features/profile/Profile";
 
 // Protected Route - checks authentication only
 const PrivateRoute = ({ children }) => {
