@@ -19,8 +19,23 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+        // Return 400 for validation-type errors
+        if (ex.getMessage() != null) {
+            if (ex.getMessage().contains("already registered") ||
+                    ex.getMessage().contains("not found") ||
+                    ex.getMessage().contains("do not match")) {
+                status = HttpStatus.BAD_REQUEST;
+            }
+            if (ex.getMessage().contains("Invalid credentials") ||
+                    ex.getMessage().contains("incorrect")) {
+                status = HttpStatus.UNAUTHORIZED;
+            }
+        }
+
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(status)
                 .body(Map.of("message", ex.getMessage()));
     }
 }
