@@ -1,4 +1,4 @@
-package edu.cit.morre.campuscare.utils
+package edu.cit.morre.campuscare.shared.network
 
 import android.content.Context
 import okhttp3.Interceptor

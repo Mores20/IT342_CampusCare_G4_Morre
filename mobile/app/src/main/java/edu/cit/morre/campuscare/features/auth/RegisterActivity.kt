@@ -1,13 +1,12 @@
-package edu.cit.morre.campuscare.auth
+package edu.cit.morre.campuscare.features.auth
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import edu.cit.morre.campuscare.api.AuthApi
+import edu.cit.morre.campuscare.shared.network.RetrofitClient
 import edu.cit.morre.campuscare.databinding.ActivityRegisterBinding
-import edu.cit.morre.campuscare.model.AuthResponse
-import edu.cit.morre.campuscare.model.RegisterRequest
-import edu.cit.morre.campuscare.utils.CustomToast
+import edu.cit.morre.campuscare.features.auth.model.AuthResponse
+import edu.cit.morre.campuscare.features.auth.model.RegisterRequest
+import edu.cit.morre.campuscare.shared.ui.CustomToast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

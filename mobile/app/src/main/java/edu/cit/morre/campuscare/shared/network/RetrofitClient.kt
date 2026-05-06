@@ -1,7 +1,6 @@
-package edu.cit.morre.campuscare.auth
+package edu.cit.morre.campuscare.shared.network
 
 import android.content.Context
-import edu.cit.morre.campuscare.utils.AuthInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

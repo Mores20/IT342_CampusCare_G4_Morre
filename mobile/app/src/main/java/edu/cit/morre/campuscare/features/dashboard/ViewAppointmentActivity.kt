@@ -1,4 +1,4 @@
-package edu.cit.morre.campuscare.auth
+package edu.cit.morre.campuscare.features.dashboard
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,15 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.cit.morre.campuscare.R
-import edu.cit.morre.campuscare.api.AuthApi
-import edu.cit.morre.campuscare.auth.RetrofitClient
-import edu.cit.morre.campuscare.model.AppointmentResponse
+import edu.cit.morre.campuscare.features.auth.AuthApi
+import edu.cit.morre.campuscare.features.appointment.AppointmentResponse
+import edu.cit.morre.campuscare.shared.network.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ViewAppointmentsActivity : AppCompatActivity() {
 

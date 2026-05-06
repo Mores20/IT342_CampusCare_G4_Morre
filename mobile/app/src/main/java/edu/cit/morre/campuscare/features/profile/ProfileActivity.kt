@@ -1,4 +1,4 @@
-package edu.cit.morre.campuscare.auth
+package edu.cit.morre.campuscare.features.profile
 
 import android.os.Bundle
 import android.widget.Button
@@ -7,11 +7,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import edu.cit.morre.campuscare.R
-import edu.cit.morre.campuscare.api.AuthApi
-import edu.cit.morre.campuscare.model.ChangePasswordRequest
-import edu.cit.morre.campuscare.model.UpdateProfileRequest
-import edu.cit.morre.campuscare.utils.CustomToast
-import edu.cit.morre.campuscare.utils.TokenManager
+import edu.cit.morre.campuscare.shared.network.RetrofitClient
+import edu.cit.morre.campuscare.features.auth.AuthApi
+import edu.cit.morre.campuscare.features.profile.model.ChangePasswordRequest
+import edu.cit.morre.campuscare.features.profile.model.UpdateProfileRequest
+import edu.cit.morre.campuscare.shared.ui.CustomToast
+import edu.cit.morre.campuscare.shared.network.TokenManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -1,4 +1,4 @@
-package edu.cit.morre.campuscare.auth
+package edu.cit.morre.campuscare.features.dashboard
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -10,11 +10,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import edu.cit.morre.campuscare.R
-import edu.cit.morre.campuscare.api.AuthApi
-import edu.cit.morre.campuscare.auth.RetrofitClient
-import edu.cit.morre.campuscare.model.AppointmentRequest
-import edu.cit.morre.campuscare.model.AppointmentResponse
-import edu.cit.morre.campuscare.utils.CustomToast
+import edu.cit.morre.campuscare.features.auth.AuthApi
+import edu.cit.morre.campuscare.features.appointment.model.AppointmentRequest
+import edu.cit.morre.campuscare.features.appointment.AppointmentResponse
+import edu.cit.morre.campuscare.shared.ui.CustomToast
+import edu.cit.morre.campuscare.shared.network.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

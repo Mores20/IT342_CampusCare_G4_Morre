@@ -1,4 +1,4 @@
-package edu.cit.morre.campuscare.model
+package edu.cit.morre.campuscare.features.appointment.model
 
 data class AppointmentRequest(
         val reason: String,

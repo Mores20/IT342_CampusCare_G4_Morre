@@ -1,4 +1,4 @@
-package edu.cit.morre.campuscare.auth
+package edu.cit.morre.campuscare.features.admin
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,10 +17,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import edu.cit.morre.campuscare.MainActivity
 import edu.cit.morre.campuscare.R
-import edu.cit.morre.campuscare.api.AuthApi
-import edu.cit.morre.campuscare.model.AppointmentResponse
-import edu.cit.morre.campuscare.utils.CustomToast
-import edu.cit.morre.campuscare.utils.TokenManager
+import edu.cit.morre.campuscare.features.auth.AuthApi
+import edu.cit.morre.campuscare.features.appointment.AppointmentResponse
+import edu.cit.morre.campuscare.shared.ui.CustomToast
+import edu.cit.morre.campuscare.shared.network.RetrofitClient
+import edu.cit.morre.campuscare.shared.network.TokenManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

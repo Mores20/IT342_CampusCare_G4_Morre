@@ -1,13 +1,13 @@
-package edu.cit.morre.campuscare.api
+package edu.cit.morre.campuscare.features.auth
 
-import edu.cit.morre.campuscare.model.AppointmentRequest
-import edu.cit.morre.campuscare.model.AppointmentResponse
-import edu.cit.morre.campuscare.model.AuthResponse
-import edu.cit.morre.campuscare.model.ChangePasswordRequest
-import edu.cit.morre.campuscare.model.LoginRequest
-import edu.cit.morre.campuscare.model.ProfileResponse
-import edu.cit.morre.campuscare.model.RegisterRequest
-import edu.cit.morre.campuscare.model.UpdateProfileRequest
+import edu.cit.morre.campuscare.features.appointment.model.AppointmentRequest
+import edu.cit.morre.campuscare.features.appointment.AppointmentResponse
+import edu.cit.morre.campuscare.features.auth.model.AuthResponse
+import edu.cit.morre.campuscare.features.profile.model.ChangePasswordRequest
+import edu.cit.morre.campuscare.features.auth.model.LoginRequest
+import edu.cit.morre.campuscare.features.profile.model.ProfileResponse
+import edu.cit.morre.campuscare.features.auth.model.RegisterRequest
+import edu.cit.morre.campuscare.features.profile.model.UpdateProfileRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

@@ -1,9 +1,8 @@
-package edu.cit.morre.campuscare.utils
+package edu.cit.morre.campuscare.shared.ui
 
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import edu.cit.morre.campuscare.R
