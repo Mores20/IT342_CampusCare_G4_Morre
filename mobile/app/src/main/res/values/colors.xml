@@ -9,5 +9,6 @@
     <color name="tab_active">#0355A1</color>
     <color name="tab_inactive">#91C0EC</color>
     <color name="field_bg">#B2CEE8</color>
-    <color name="hint_text">#FFFFFF</color>
+    <color name="hint_text">#353535</color>
+    <color name="black">#000000</color>
 </resources>
