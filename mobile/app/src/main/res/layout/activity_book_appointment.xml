@@ -2,166 +2,204 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f0f6ff"
+    android:background="@color/white"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="20dp">
 
+        <!-- Header -->
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Book an Appointment"
-            android:textColor="#0355A1"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textSize="22sp"
-            android:layout_marginBottom="4dp"/>
+            android:textColor="@color/brand_primary"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
+            android:text="Fill in the details below to schedule your clinic visit"
+            android:textSize="13sp"
+            android:textColor="#667085"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- Reason -->
+        <TextView android:text="Reason for Visit *"
+            android:textSize="13sp" android:textColor="@color/brand_primary"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/etReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="e.g. Fever, Check-up, Consultation"
+            android:background="@drawable/input_background"
+            android:textColor="@color/black"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Date picker -->
+        <TextView android:text="Preferred Date *"
+            android:textSize="13sp" android:textColor="@color/brand_primary"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btnPickDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pick a date"
+            android:backgroundTint="@color/brand_primary"
+            android:textColor="@color/white"
+            android:layout_marginBottom="8dp"/>
+        <TextView
+            android:id="@+id/tvSelectedDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fill in the details below"
-            android:textColor="#397EBF"
             android:textSize="13sp"
-            android:layout_marginBottom="24dp"/>
+            android:textColor="#185FA5"
+            android:layout_marginBottom="8dp"/>
 
+        <!-- Availability badge -->
+        <TextView
+            android:id="@+id/tvAvailabilityBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/badge_background"/>
+
+        <!-- Slots loading indicator -->
+        <TextView
+            android:id="@+id/tvSlotsLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Checking availability..."
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Time slot section label -->
+        <TextView
+            android:id="@+id/tvSlotLabel"
+            android:text="Select a Time Slot *"
+            android:textSize="13sp"
+            android:textColor="#344054"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- Slot grid (3 columns via nested LinearLayouts, populated in code) -->
+        <GridLayout
+            android:id="@+id/slotGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Legend -->
+        <LinearLayout
+            android:id="@+id/slotLegend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp">
+
+            <View android:layout_width="12dp" android:layout_height="12dp"
+                android:background="@drawable/legend_available"
+                android:layout_gravity="center_vertical"/>
+            <TextView android:text=" Available  " android:textSize="12sp" android:textColor="#667085"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <View android:layout_width="12dp" android:layout_height="12dp"
+                android:background="@drawable/legend_selected"
+                android:layout_gravity="center_vertical"/>
+            <TextView android:text=" Selected  " android:textSize="12sp" android:textColor="#667085"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+            <View android:layout_width="12dp" android:layout_height="12dp"
+                android:background="@drawable/legend_taken"
+                android:layout_gravity="center_vertical"/>
+            <TextView android:text=" Taken" android:textSize="12sp" android:textColor="#667085"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Notes -->
+        <TextView android:text="Additional Notes (optional)"
+            android:textSize="13sp" android:textColor="@color/brand_primary"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/etNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Any additional information..."
+            android:minLines="3"
+            android:gravity="top"
+            android:background="@drawable/input_background"
+            android:textColor="@color/black"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- File attach -->
+        <Button
+            android:id="@+id/btnAttachFile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📎 Attach Document (optional)"
+            android:backgroundTint="#F9FAFB"
+            android:textColor="#344054"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvFileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#667085"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Actions -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/bg_card"
-            android:padding="20dp"
-            android:elevation="4dp">
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Reason for Visit *" android:textColor="#0355A1"
-                android:textStyle="bold" android:textSize="14sp" android:layout_marginBottom="6dp"/>
-
-            <EditText
-                android:id="@+id/etReason"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:hint="e.g. Fever, Check-up, Consultation"
-                android:background="@drawable/bg_field"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:layout_marginBottom="16dp"/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Preferred Date *" android:textColor="#0355A1"
-                android:textStyle="bold" android:textSize="14sp" android:layout_marginBottom="6dp"/>
-
-            <TextView
-                android:id="@+id/tvSelectedDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No date selected"
-                android:textColor="#397EBF"
-                android:textSize="13sp"
-                android:layout_marginBottom="8dp"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnPickDate"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Pick Date"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/bg_button"
-                android:backgroundTint="@null"
-                android:stateListAnimator="@null"
-                android:layout_marginBottom="16dp"/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Preferred Time *" android:textColor="#0355A1"
-                android:textStyle="bold" android:textSize="14sp" android:layout_marginBottom="6dp"/>
-
-            <TextView
-                android:id="@+id/tvSelectedTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No time selected"
-                android:textColor="#397EBF"
-                android:textSize="13sp"
-                android:layout_marginBottom="8dp"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnPickTime"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Pick Time"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/bg_button"
-                android:backgroundTint="@null"
-                android:stateListAnimator="@null"
-                android:layout_marginBottom="16dp"/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Additional Notes (optional)" android:textColor="#0355A1"
-                android:textStyle="bold" android:textSize="14sp" android:layout_marginBottom="6dp"/>
-
-            <EditText
-                android:id="@+id/etNotes"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:hint="Any additional information..."
-                android:background="@drawable/bg_field"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:layout_marginBottom="16dp"/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Attach Document (optional)" android:textColor="#0355A1"
-                android:textStyle="bold" android:textSize="14sp" android:layout_marginBottom="6dp"/>
-
-            <TextView
-                android:id="@+id/tvFileName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No file selected"
-                android:textColor="#397EBF"
-                android:textSize="13sp"
-                android:layout_marginBottom="8dp"/>
-
-            <Button
-                android:id="@+id/btnAttachFile"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="📎 Choose File (PDF/Image)"
-                android:textColor="#0355A1"
-                android:backgroundTint="#B2CEE8"
-                android:stateListAnimator="@null"
-                android:layout_marginBottom="24dp"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSubmit"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="Submit Appointment"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:background="@drawable/bg_button"
-                android:backgroundTint="@null"
-                android:stateListAnimator="@null"
-                android:layout_marginBottom="8dp"/>
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="8dp">
 
             <Button
                 android:id="@+id/btnBack"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Cancel"
-                android:textColor="#0355A1"
-                android:backgroundTint="#B2CEE8"
-                android:stateListAnimator="@null"/>
+                android:backgroundTint="#F2F4F7"
+                android:textColor="#344054"
+                android:layout_marginEnd="8dp"/>
 
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit Appointment"
+                android:backgroundTint="#185FA5"
+                android:textColor="@color/white"/>
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

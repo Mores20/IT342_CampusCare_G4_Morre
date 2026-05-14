@@ -44,6 +44,9 @@ interface AuthApi {
         @Body body: Map<String, String>
     ): Call<AppointmentResponse>
 
+    @GET("appointments/booked-slots")
+    fun getBookedSlots(@Query("date") date: String): Call<List<String>>
+
     // ── Profile ──
     @GET("profile")
     fun getProfile(): Call<ProfileResponse>
