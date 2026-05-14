@@ -286,6 +286,15 @@ body {
   font-weight: 600;
   font-size: 0.9rem;
 }
+.warning-alert {
+  background: #FAEEDA;
+  color: #854F0B;
+  border: 0.5px solid #EF9F27;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
 
 .success-alert {
   background: #d1fae5;
@@ -554,3 +563,80 @@ body {
   .admin-card { flex-direction: column; align-items: flex-start; gap: 12px; }
   .admin-actions { width: 100%; justify-content: flex-end; }
 }
+/* ── Slot availability badge ── */
+.slot-availability-badge {
+  display: inline-block;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin: 6px 0 12px;
+  font-weight: 500;
+}
+.badge-available  { background: #EAF3DE; color: #3B6D11; }
+.badge-limited    { background: #FAEEDA; color: #854F0B; }
+.badge-full       { background: #FCEBEB; color: #A32D2D; }
+.badge-loading    { background: #f1f1f1; color: #888; }
+
+/* ── Slot grid ── */
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.slot-btn {
+  position: relative;
+  padding: 10px 6px;
+  border-radius: 8px;
+  border: 1.5px solid #d0d5dd;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  color: #344054;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.slot-btn:hover:not(:disabled) {
+  border-color: #185FA5;
+  background: #E6F1FB;
+  color: #185FA5;
+}
+.slot-btn.slot-selected {
+  border-color: #185FA5;
+  background: #185FA5;
+  color: #ffffff;
+}
+.slot-btn.slot-taken {
+  background: #f5f5f5;
+  border-color: #e0e0e0;
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+.slot-taken-label {
+  font-size: 10px;
+  font-weight: 400;
+  color: #E24B4A;
+}
+
+/* ── Legend ── */
+.slot-legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: #667085;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  border: 1.5px solid transparent;
+}
+.dot-available { background: #fff; border-color: #d0d5dd; }
+.dot-selected  { background: #185FA5; border-color: #185FA5; }
+.dot-taken     { background: #f5f5f5; border-color: #e0e0e0; }
