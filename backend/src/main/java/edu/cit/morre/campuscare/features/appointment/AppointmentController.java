@@ -22,13 +22,18 @@ public class AppointmentController {
 
     // ✅ Book appointment
     @PostMapping
-    public ResponseEntity<Appointment> bookAppointment(
+    public ResponseEntity<?> bookAppointment(
             @RequestBody AppointmentRequest request,
             Authentication authentication) {
-        Appointment appointment = appointmentService.bookAppointment(
-                authentication.getName(), request
-        );
-        return ResponseEntity.ok(appointment);
+        try {
+            Appointment appointment = appointmentService.bookAppointment(
+                    authentication.getName(), request
+            );
+            return ResponseEntity.ok(appointment);
+        } catch (IllegalStateException e) {
+            // 409 Conflict — duplicate slot
+            return ResponseEntity.status(409).body(Map.of("message", e.getMessage()));
+        }
     }
 
     // ✅ Get my appointments (student)
@@ -44,6 +49,13 @@ public class AppointmentController {
     public ResponseEntity<List<Appointment>> getAllAppointments() {
         return ResponseEntity.ok(appointmentService.getAllAppointments());
     }
+    // ✅ NEW — returns booked time slots for a given date (used by frontend time picker)
+    @GetMapping("/booked-slots")
+    public ResponseEntity<List<String>> getBookedSlots(@RequestParam String date) {
+        List<String> bookedTimes = appointmentService.getBookedSlots(date);
+        return ResponseEntity.ok(bookedTimes);
+    }
+
 
     // ✅ Update status (admin) — sends email notification automatically
     @PutMapping("/{id}/status")
